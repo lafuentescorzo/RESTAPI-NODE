@@ -41,4 +41,19 @@ Sigue estos pasos para utilizar este template en tu proyecto:
 
  Entonces, cuando un usuario accede a través del puerto 4000 en el host, Docker redirige automáticamente esa solicitud al puerto 3000 dentro del contenedor, donde la aplicación en el contenedor está escuchando. Esto permite que los usuarios externos accedan a la aplicación en el contenedor a través del puerto 4000 en el host.
 
-3. **para ver la imagen creada puedes usar el siguiente comando** docker images **y luego ejecutar el contenedor basado en la imagen puedes ejecutar el siguiente comando para verlo:** docker ps.
+3. **para ver la imagen creada puedes usar el siguiente comando** docker images **y luego ejecutar el contenedor basado en la imagen puedes ejecutar el siguiente comando para verlo:** docker ps.}
+
+4. **Explicacion de el contenido de el dockerfile**: 
+Claro, cada parte del archivo Dockerfile tiene un propósito específico. Aquí está la explicación de cada una:
+
+FROM node:12: Esta línea indica la imagen base que se utilizará para construir tu contenedor Docker. En este caso, estás utilizando la imagen oficial de Node.js versión 12 como base. Esto significa que tu contenedor se creará a partir de esta imagen base, que ya incluye Node.js instalado.
+
+WORKDIR /app: Esta línea establece el directorio de trabajo dentro del contenedor donde se copiarán los archivos de la aplicación. Todas las instrucciones siguientes en el Dockerfile se ejecutarán desde este directorio de trabajo. En este caso, el directorio de trabajo se establece en /app.
+
+COPY package*.json ./: Esta línea copia los archivos package.json y package-lock.json (si existen) del directorio de construcción (fuera del contenedor) al directorio de trabajo dentro del contenedor (/app). Esto es necesario para instalar las dependencias de la aplicación utilizando npm.
+
+RUN npm install: Esta línea ejecuta el comando npm install dentro del contenedor. Instala todas las dependencias del proyecto Node.js basándose en los archivos package.json y package-lock.json que se copiaron previamente al directorio de trabajo. Esto asegura que todas las dependencias estén instaladas correctamente dentro del contenedor.
+
+COPY . .: Esta línea copia todos los archivos y directorios del directorio de construcción al directorio de trabajo dentro del contenedor (/app). Esto incluye todos los archivos de código fuente de tu aplicación.
+
+CMD [ "npm", "start" ]: Esta línea define el comando predeterminado que se ejecutará cuando se inicie el contenedor. En este caso, se ejecutará el script start definido en el archivo package.json de tu aplicación Node.js. 
